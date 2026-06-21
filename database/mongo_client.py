@@ -40,8 +40,7 @@ class Db:
             print(e)
 
 if __name__ == "__main__":
-    print("Iniciando o teste de inserção no Atlas...")
-
+    
     db = Db()
     data = {
         "sku": "GTR-PRO-001",
@@ -53,6 +52,6 @@ if __name__ == "__main__":
 
     try:
         novo_id = db.insert_one_document("product", data)
-        print(f"✅ SUCESSO TOTAL! A guitarra foi salva no Atlas com o ID: {novo_id}")
+        print(f"Produto salvo. ID: {novo_id}")
     except Exception as e:
         print(e)

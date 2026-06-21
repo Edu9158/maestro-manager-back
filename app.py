@@ -4,9 +4,10 @@ Application entry point.
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database.mongo_client import DB
+from database.mongo_client import Db
 from routes.tracking import bpTracking
 from routes.users import bpUsers
+from routes.products import bpProducts
 
 
 def create_app():
@@ -19,7 +20,7 @@ def create_app():
     @app.route("/health", methods=["GET"])
     def health():
         try:
-            db = DB()
+            db = Db()
             db.client.admin.command("ping")
             return jsonify({
                 "status": "ok",
@@ -33,6 +34,7 @@ def create_app():
 
     app.register_blueprint(bpTracking)
     app.register_blueprint(bpUsers)
+    app.register_blueprint(bpProducts)
 
     return app
 

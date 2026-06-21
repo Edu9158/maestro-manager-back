@@ -1,29 +1,29 @@
-# 1. Usando a imagem base do Python 3.14 (slim para ser mais leve)
+# 1. Using the base image of Python 3.14 slim
 FROM python:3.14-rc-slim
 
-# 2. Define o diretório de trabalho dentro do container
+# 2. Define the working directory inside the container
 WORKDIR /app
 
-# 3. Evita que o Python gere arquivos .pyc e permite logs em tempo real
+# 3. Set environment variables to prevent Python from writing .pyc files and to ensure output is sent straight to the terminal
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# 4. Instala dependências do sistema que podem ser necessárias para pacotes Python
+# 4. Install system dependencies that may be required for Python packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# 5. Copia apenas o requirements.txt primeiro para aproveitar o cache do Docker
+# 5. Copy only the requirements.txt first to take advantage of Docker's caching
 COPY requirements.txt .
 
-# 6. Instala as dependências do projeto
+# 6. Install project dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 7. Copia todo o conteúdo do projeto para dentro do container
+# 7. Copy the entire project content into the container
 COPY . .
 
-# 8. Expõe a porta que sua aplicação usa (ex: 8000, 5000 ou 8080)
+# 8. Expose the port your application uses (e.g., 8000, 5000, or 8080)
 EXPOSE 8000
 
-# 9. Comando para rodar a aplicação
+# 9. Command to run the application
 CMD ["python", "app.py"]
