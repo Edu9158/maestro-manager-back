@@ -10,4 +10,5 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - PORT=8000
     restart: always

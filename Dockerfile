@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 8000
 
 # 9. Comando para rodar a aplicação
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]

@@ -1,26 +1,42 @@
 """
-Fuck it
+Application entry point.
 """
 import os
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
+from database.mongo_client import DB
 from routes.tracking import bpTracking
 from routes.users import bpUsers
 
+
 def create_app():
     """
-    Creates flask app.
+    Creates flask app
     """
-    # creates flask app
     app = Flask(__name__)
+    CORS(app)
 
-    # define tracking blueprints url
+    @app.route("/health", methods=["GET"])
+    def health():
+        try:
+            db = DB()
+            db.client.admin.command("ping")
+            return jsonify({
+                "status": "ok",
+                "database": "connected"
+            }), 200
+        except Exception as error:
+            return jsonify({
+                "status": "error",
+                "database": str(error)
+            }), 500
+
     app.register_blueprint(bpTracking)
     app.register_blueprint(bpUsers)
 
     return app
 
 if __name__ == "__main__":
-    # starts flask app
     _app = create_app()
     port = int(os.environ.get("PORT", 5000))
-    _app.run(host = '0.0.0.0', port = port, debug = True)
+    _app.run(host="0.0.0.0", port=port, debug=True)
