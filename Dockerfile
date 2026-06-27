@@ -5,8 +5,8 @@ FROM python:3.14-rc-slim
 WORKDIR /app
 
 # 3. Set environment variables to prevent Python from writing .pyc files and to ensure output is sent straight to the terminal
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # 4. Install system dependencies that may be required for Python packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
